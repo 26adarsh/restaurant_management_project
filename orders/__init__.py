@@ -1,4 +1,4 @@
 PENDING = 'Pending'
 PROCESSING = 'Processing'
 COMPLETED = 'Completed'
-CANCELLED = 'Cancalled'
+CANCELLED = 'Cancelled'

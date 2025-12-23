@@ -2,7 +2,9 @@ import string
 import secrets
 from orders.models import Coupon
 from datetime import datetime
-from .models import DailyOperatingHours
+from .models import DailyOperatingHours,Order
+from django.db.models import Sum
+
 
 def generate_coupon_code(length=10):
     characters = string.ascii_uppercase+string.digits
@@ -19,3 +21,9 @@ def get_today_operating_hours():
         return hours.open_time,hours.close_time
     except DailyOperatingHours.DoesNotExist:
         return None, None
+
+def get_daily_sales_total(date):
+    result = Order.objects.filter(
+        created_at__date=date
+    ).aggregate(total_sum=Sum('total_price'))
+    return result['total_sum'] or 0

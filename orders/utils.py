@@ -4,6 +4,7 @@ from orders.models import Coupon
 from datetime import datetime
 from .models import DailyOperatingHours,Order
 from django.db.models import Sum
+from decimal import Decimal,ROUND_HALF_UP
 
 
 def generate_coupon_code(length=10):
@@ -27,3 +28,9 @@ def get_daily_sales_total(date):
         created_at__date=date
     ).aggregate(total_sum=Sum('total_price'))
     return result['total_sum'] or 0
+
+def calculate_tip_amount(order_total,tip_percentage):
+    order_total=Decimal(str(order_total))
+    tip_percentage=Decimal(str(tip_percentage))
+    tip_amount=order_total*(tip_percentage/Decimal('100'))
+    return tip_amount.quantize(Decimal('0.01'),rounding=ROUND_HALF_UP)

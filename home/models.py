@@ -1,5 +1,5 @@
 from django.db import models
-
+from .models import MenuItem
 # Create your models here.
 class MenuCategory(models.Model):
     name = models.CharField(max_length=100,unique = True)
@@ -24,3 +24,18 @@ class DailySpecial(models.Model):
         if not specials.exists():
             return None
         return specials.order_by('?').first()
+
+    
+class NutritionalInformation(models.Model):
+    menu_item = models.ForeignKey(
+        MenuItem,
+        on-delete=models.CASCADE,
+        related_name='nutritional_info'
+    )
+    calories = models.IntegerField()
+    protein_grams=models.DecimalField(max_digits=5,decimal_places=2)
+    fat_grams=models.DecimalField(max_digits=5,decimal_places=2)
+    carbohydrate_grams=models.DecimalField(max_digits=5,decimal_places=2)
+
+    def __str__(self):
+        return f"{self.menu_item.name}-{self.calories}kcal"

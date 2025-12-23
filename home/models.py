@@ -63,6 +63,7 @@ class DailySpecialManager(models.Manager):
         return self.filter(date__gte=today)
 
 class DailySpecial(models.Model):
+    name=models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     description=models.CharField(max_length=100)
     date=models.DateField()

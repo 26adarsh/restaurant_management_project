@@ -10,6 +10,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import MentItem
 from .serializers import IngredientSerializer
+from rest_framework.decorators import api_view
+
 
 # Create your views here.
 
@@ -46,3 +48,17 @@ class MentItemIngredientsView(RetrieveAPIView):
         ingredients=menu_item.ingredients.all()
         serializer=IngredientSerializer(ingredients,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def menu_items_by_category(request):
+    category_name = request.query.params.get('category')
+
+    if not category_name:
+        return Response(
+            {"error":"category query parameter is required"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    items = MentItem.objects.filter(category__name__iexact=category_name)
+    serializer=MenuItemSerializer(items,many=True)
+
+    return Response(serializer.data,status=status.HTTP_200_OK)

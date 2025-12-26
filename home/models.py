@@ -71,3 +71,12 @@ class DailySpecial(models.Model):
     objects=DailySpecialManager()
     def __str__(self):
         return self.title
+
+class OrderItem(models.Model):
+    order = models.ForeignKey('Order',on_delete=models.CASCADE)
+    menu_item=models.ForeignKey(
+        MenuItem,
+        on_delete=models.CASCADE,
+        related_name='orderitem'
+    )
+    quantity = models.PositiveIntegerField(default=1)

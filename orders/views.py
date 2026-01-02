@@ -36,3 +36,8 @@ class OrderHistoryView(ListAPIView):
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user).order_by('-created_at')
+
+class OrderDetailView(RetrieveAPIView):
+    queryset=Order.objects.all()
+    serializer_class=OrderDetailSerializer
+    permissions_classes=[IsAuthenticated]

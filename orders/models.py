@@ -20,6 +20,14 @@ class Order(models.Model):
     total_amount=models.DecimalField(max_digits=10,decimal_places=2)
     
     objects=ActiveOrderManager()
+
+    def get_unique_item_names(self):
+        item_names=set()
+        for order_item in self.orderitem_set.all():
+            if order_item.menu_item:
+                item_names.add(order_item.menu_item.name)
+        return list(item_names)
+
     def __str__(self):
         return f"Order #{self.id}-{self.status}"
 

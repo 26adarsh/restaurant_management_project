@@ -3,6 +3,11 @@ from django.db import models
 # Create your models here.
 from .models import OrderStatus
 
+
+class OrderManager(models.Manager):
+    def get_active_orders(self):
+        return self.filter(status__in=['pending','processing'])
+
 class Order(models.Model):
     STATUS_CHOICES=[
         ('pending','Pending'),

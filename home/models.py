@@ -95,7 +95,7 @@ class Restaurant(models.Model):
         max_length=100,
         blank=True,
         null=True,
-        help_text="Comma-seprated days"
+        help_text="Comma-seprated days e.g. Mon,Tue,Wed,Thu,Fri"
     )
     def __str__(self):
         return self.name
